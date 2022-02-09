@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ExTraFaxReport>
+    <HitStatus>Hit</HitStatus>
+    <IdentityInfo>
+        <FirstName>Francis</FirstName>
+        <LastName>Fitzgerald</LastName>
+        <DateOfBirth>1940-12-21</DateOfBirth>
+        <SSN>987-65-1111</SSN>
+        <Address>
+            <Street1>1140 Broadway</Street1>
+            <Street2>Suite 1001</Street2>
+            <City>New York</City>
+            <Region1Code>NY</Region1Code>
+            <PostalCode>10001</PostalCode>
+            <CountryCode>US</CountryCode>
+        </Address>
+    </IdentityInfo>
+    <PullDate>2019-11-26</PullDate>
+    <AML>
+        <WatchlistHits></WatchlistHits>
+    </AML>
+    <ReportFreeze>
+        <FrozenIndicator>N</FrozenIndicator>
+    </ReportFreeze>
+    <FraudAlerts>
+        <ExtendedFraudVictimAlert>N</ExtendedFraudVictimAlert>
+    </FraudAlerts>
+    <FICO8>575</FICO8>
+</ExTraFaxReport>

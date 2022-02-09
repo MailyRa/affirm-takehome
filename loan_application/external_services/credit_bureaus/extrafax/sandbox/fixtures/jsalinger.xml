@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ExTraFaxReport>
+    <HitStatus>Hit</HitStatus>
+    <IdentityInfo>
+        <FirstName>J</FirstName>
+        <LastName>Salinger</LastName>
+        <DateOfBirth>1919-01-01</DateOfBirth>
+        <SSN>987-65-4444</SSN>
+        <Address>
+            <Street1>1140 Broadway</Street1>
+            <Street2>Suite 1001</Street2>
+            <City>New York</City>
+            <Region1Code>NY</Region1Code>
+            <PostalCode>10001</PostalCode>
+            <CountryCode>US</CountryCode>
+        </Address>
+    </IdentityInfo>
+    <PullDate>2019-11-26</PullDate>
+    <AML>
+        <WatchlistHits></WatchlistHits>
+    </AML>
+    <ReportFreeze>
+        <FrozenIndicator>N</FrozenIndicator>
+    </ReportFreeze>
+    <FraudAlerts>
+        <ExtendedFraudVictimAlert>Y</ExtendedFraudVictimAlert>
+        <AlertMessage>
+            <EN-US>This file has an extended fraud alert activated. Please verify the customer's identity in person before extending credit.</EN-US>
+            <ES-MX>Este archivo tiene activada una alerta de fraude extendida. Verifique la identidad del cliente en persona antes de extender el crédito.</ES-MX>
+        </AlertMessage>
+    </FraudAlerts>
+    <FICO8>675</FICO8>
+</ExTraFaxReport>

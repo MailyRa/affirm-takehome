@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ExTraFaxReport>
+    <HitStatus>Hit</HitStatus>
+    <IdentityInfo>
+        <FirstName>E</FirstName>
+        <LastName>Hemingway</LastName>
+        <DateOfBirth>1961-07-02</DateOfBirth>
+        <SSN>987-65-2222</SSN>
+        <Address>
+            <Street1>1140 Broadway</Street1>
+            <Street2>Suite 1001</Street2>
+            <City>New York</City>
+            <Region1Code>NY</Region1Code>
+            <PostalCode>10001</PostalCode>
+            <CountryCode>US</CountryCode>
+        </Address>
+    </IdentityInfo>
+    <PullDate>2019-11-26</PullDate>
+    <AML>
+        <WatchlistHits></WatchlistHits>
+    </AML>
+    <ReportFreeze>
+        <FrozenIndicator>N</FrozenIndicator>
+    </ReportFreeze>
+    <FraudAlerts>
+        <ExtendedFraudVictimAlert>N</ExtendedFraudVictimAlert>
+    </FraudAlerts>
+    <FICO8>803</FICO8>
+</ExTraFaxReport>

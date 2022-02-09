@@ -1,0 +1,502 @@
+openapi: 3.0.0
+info:
+  description: "Simplified Loan Application"
+  title: Loan Application Lite
+  version: 1.0.0
+tags:
+- description: |
+
+    0. Applicant submits a request for a loan at a merchant for some amount.
+    1. Applicant submits basic identifying information.
+    2. Server does risk checks to verify customer's identity and may require the customer to submit their full social security number.
+    3. Server does risk checks to verify customer's credit worthiness and may require the customer to submit their income.
+    4. Server may decline the customer at any point in the flow.
+    5. If the server approve, the server returns terms for the customer to choose from, as well as disclosures for them to agree to.
+  name: Loan Application
+paths:
+  /api/v1/loanapplication/:
+    post:
+      x-openapi-router-controller: 'loan_application.app.implementation'
+      operationId: initialize_loan_application
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateLoanApplicationRequest'       
+      responses:
+        200:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LoanApplicationResponse'
+          description: Request successfully processed
+        400:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadInputResponse'
+          description: Request invalid
+      summary: Initialize Loan Application
+      tags:
+      - Initialize Loan Application
+  /api/v1/loanapplication/{loan_application_id}/identity:
+    post:
+      x-openapi-router-controller: 'loan_application.app.implementation'
+      operationId: submit_identity
+      parameters:
+        - description: Identifier for the loan application.
+          explode: false
+          in: path
+          name: loan_application_id
+          required: true
+          schema:
+            type: string
+          style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SubmitIdentityRequest'
+      responses:
+        200:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LoanApplicationResponse'
+          description: Request successfully processed
+        400:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadInputResponse'
+          description: Request invalid
+      summary: Submit Identity
+      tags:
+      - Submit Identity
+  /api/v1/loanapplication/{loan_application_id}/ssn:
+    post:
+      x-openapi-router-controller: 'loan_application.app.implementation'
+      operationId: submit_ssn
+      parameters:
+        - description: Identifier for the loan application.
+          explode: false
+          in: path
+          name: loan_application_id
+          required: true
+          schema:
+            type: string
+          style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SubmitSSNRequest'
+      responses:
+        200:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LoanApplicationResponse'
+          description: Request successfully processed
+        400:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadInputResponse'
+          description: Request invalid
+      summary: Submit SSN
+      tags:
+      - Submit SSN
+  /api/v1/loanapplication/{loan_application_id}/income:
+    post:
+      x-openapi-router-controller: 'loan_application.app.implementation'
+      operationId: submit_income
+      parameters:
+        - description: Identifier for the loan application.
+          explode: false
+          in: path
+          name: loan_application_id
+          required: true
+          schema:
+            type: string
+          style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SubmitIncomeRequest'
+      responses:
+        200:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LoanApplicationResponse'
+          description: Request successfully processed
+        400:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadInputResponse'
+          description: Request invalid
+      summary: Submit Income
+      tags:
+      - Submit Income
+  /api/v1/loanapplication/{loan_application_id}/confirmation:
+    post:
+      x-openapi-router-controller: 'loan_application.app.implementation'
+      operationId: submit_confirmation
+      parameters:
+        - description: Identifier for the loan application.
+          explode: false
+          in: path
+          name: loan_application_id
+          required: true
+          schema:
+            type: string
+          style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SubmitConfirmationRequest'
+      responses:
+        200:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SubmitConfirmationResponse'
+          description: Request successfully processed
+        400:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadInputResponse'
+          description: Request invalid
+      summary: Submit Confirmation
+      tags:
+      - Submit Confirmation
+  /api/v1/loanapplication/{loan_application_id}/exit:
+    post:
+      x-openapi-router-controller: 'loan_application.app.implementation'
+      operationId: submit_exit
+      parameters:
+        - description: Identifier for the loan application.
+          explode: false
+          in: path
+          name: loan_application_id
+          required: true
+          schema:
+            type: string
+          style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        200:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SubmitExitResponse'
+          description: Request successfully processed
+        400:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadInputResponse'
+          description: Request invalid
+      summary: Submit Exit
+      tags:
+      - Submit Exit
+components:
+  schemas:
+    Address:
+      example:
+        street1: "1140 Broadway"
+        city: "New York"
+        region1_code: "NY"
+        postal_code: "10001"
+        country_code: "US"
+      properties:
+        street1:
+          type: string
+        street2:
+          type: string
+        city:
+          type: string
+        region1_code:
+          type: string
+          pattern: '^\w{2}$'
+          description: "2 letter abbreviation for state, province, etc"
+        postal_code:
+          type: string
+        country_code:
+          type: string
+          pattern: '^\w{2}$'
+          description: "ISO 2 country code"
+      type: object
+      required:
+        - street1
+        - city
+        - region1_code
+        - postal_code
+        - country_code
+    ApprovedTerms:
+      example:
+        schedule_id: "1e0a8f1a-a3a3-4842-b92f-c81592b73154"
+        payment_frequency: monthly
+        number_of_payments: 3
+        payment_amount: "$338.83 per month"
+        first_payment_amount: "$338.83"
+        last_payment_amount: "$338.83"
+        payments_total: "$1016.48"
+        principal_total: "$1000.00"
+        interest_total: "$16.48"
+        apr: "9.99%"
+        loan_start_date: "November 29 2019"
+        first_payment_date: "December 28 2019"
+      properties:
+        schedule_id:
+          type: string
+          format: uuid
+        payment_frequency:
+          type: string
+          enum:
+            - monthly
+        number_of_payments:
+          type: string
+          pattern: '\d+'
+        currency:
+          type: string
+          enum:
+            - USD
+            - CAD
+            - GBP
+            - EUR
+        payment_amount:
+          type: string
+          pattern: '^\$\d+\.\d{2} per month$'
+        first_payment_amount:
+          type: string
+          pattern: '^\$\d+\.\d{2}$'
+        last_payment_amount:
+          type: string
+          pattern: '^\$\d+\.\d{2}$'
+        payments_total:
+          type: string
+          pattern: '^\$\d+\.\d{2}$'
+        principal_total:
+          type: string
+          pattern: '^\$\d+\.\d{2}$'
+        interest_total:
+          type: string
+          pattern: '^\$\d+\.\d{2}$'
+        apr:
+          type: string
+          pattern: '^\d+\.\d{1,5}\% APR$'
+        loan_start_date:
+          type: string
+        first_payment_date:
+          type: string
+      type: object
+      required:
+        - schedule_id
+        - payment_frequency
+        - number_of_payments
+        - payment_amount
+        - first_payment_amount
+        - last_payment_amount
+        - payments_total
+        - principal_total
+        - interest_total
+        - apr
+        - loan_start_date
+        - first_payment_date
+    Declination:
+      example:
+        header: "We're sorry"
+        message: "We couldn't approve your application because we couldn't verify your identity."
+      properties:
+        header:
+          type: string
+          maxLength: 36
+        message:
+          type: string
+      type: object
+      required:
+        - header
+        - message
+    CreateLoanApplicationRequest:
+      example:
+        merchant_id: "4f572866-0e85-11ea-94a8-acde48001122"
+        requested_amount_cents: 100000
+        currency: USD
+      properties:
+        merchant_id:
+          type: string
+          format: uuid
+        requested_amount_cents:
+          type: integer
+          description: "Loan amount requested in cents, e.g. 100000 for $1000.00"
+        currency:
+          type: string
+          enum:
+            - USD
+            - CAD
+            - EUR
+            - GBP
+      type: object
+      required:
+        - merchant_id
+        - requested_amount_cents
+        - currency
+    SubmitIdentityRequest:
+      example:
+        full_name: "Scott Fitzgerald"
+        date_of_birth: "1940-12-21"
+        ssn_last4: "1111"
+        address:
+          street1: "1140 Broadway"
+          street2: "Suite 1001"
+          city: "New York"
+          region1_code: "NY"
+          postal_code: "10001"
+          country_code: "US"
+        email: "thissideofparadise@gmail.com"
+      properties:
+        full_name:
+          type: string
+        date_of_birth:
+          type: string
+          format: date
+        ssn_last4:
+          type: string
+          pattern: '^\d{4}$'
+        address:
+          $ref: "#/components/schemas/Address"
+        email:
+          type: string
+          format: email
+      type: object
+      required:
+        - full_name
+        - date_of_birth
+        - ssn_last4
+        - address
+        - email
+    LoanApplicationResponse:
+      example:
+        loan_application_id: da578d12-34eb-45b3-af45-e8da687910bf
+        next_step: ssn
+        submit_url: "/api/v1/loanapplication/da578d12-34eb-45b3-af45-e8da687910bf 
+/ssn"
+      properties:
+        loan_application_id:
+          type: string
+          format: uuid
+        next_step:
+          type: string
+          enum:
+            - identity
+            - ssn
+            - income
+            - confirmation
+            - declination
+            - exit
+        submit_url:
+          type: string
+        data:
+          properties:
+            approved_terms:
+              type: array
+              items:
+                $ref: "#/components/schemas/ApprovedTerms"
+            declination:
+              $ref: "#/components/schemas/Declination"
+          type: object
+      type: object
+      required:
+        - loan_application_id
+        - next_step
+        - submit_url
+    SubmitSSNRequest:
+      example:
+        ssn: "123-12-1234"
+      properties:
+        ssn:
+          type: string
+          pattern: '^\d{3}-\d{2}-\d{4}$'
+      type: object
+      required:
+        - ssn
+    SubmitIncomeRequest:
+      example:
+        frequency: "biweekly"
+        amount_cents: 200000
+        currency: USD
+      properties:
+        frequency:
+          type: string
+          enum:
+            - biweekly
+            - monthly
+            - annually
+          description: "Frequency of paychecks"
+        amount_cents:
+          type: integer
+          description: "Amount of paycheck in cents, e.g. 200000 for $2000.00"
+        currency:
+          type: string
+          enum:
+            - USD
+            - CAD
+            - GBP
+            - EUR
+      type: object
+      required:
+        - frequency
+        - amount_cents
+        - currency
+    SubmitConfirmationRequest:
+      example:
+        schedule_id: "e9fe54bc-0e7f-11ea-94a8-acde48001122"
+      properties:
+        schedule_id:
+          type: string
+          format: uuid
+      type: object
+      required:
+        - schedule_id
+    SubmitConfirmationResponse:
+      example:
+        merchant_payment_token: "3345919e-0e85-11ea-94a8-acde48001122"
+      properties:
+        merchant_payment_token:
+          type: string
+          format: uuid
+        message:
+          type: string
+          format: uuid
+      type: object
+      required:
+        - merchant_payment_token
+    SubmitExitResponse:
+      example:
+        message: "Goodbye"
+      properties:
+        message:
+          type: string
+      type: object
+    BadInputResponse:
+      example:
+        field: "full_name"
+        message: "Please input a valid name."
+      properties:
+        field:
+          type: string
+        message:
+          type: string
+      type: object
+      required:
+        - message

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ExTraFaxReport>>
+    <HitStatus>Hit</HitStatus>
+    <IdentityInfo>
+        <FirstName>Z</FirstName>
+        <LastName>Fitzgerald</LastName>
+        <DateOfBirth>1948-03-10</DateOfBirth>
+        <SSN>987-65-3333</SSN>
+        <Address>
+            <Street1>1140 Broadway</Street1>
+            <Street2>Suite 1001</Street2>
+            <City>New York</City>
+            <Region1Code>NY</Region1Code>
+            <PostalCode>10001</PostalCode>
+            <CountryCode>US</CountryCode>
+        </Address>
+    </IdentityInfo>
+    <PullDate>2019-11-26</PullDate>
+    <AML>
+        <WatchlistHits></WatchlistHits>
+    </AML>
+    <ReportFreeze>
+        <FrozenIndicator>Y</FrozenIndicator>
+        <AlertMessage>
+            <EN-US>Your credit file has a temporary freeze. If you want to apply for credit products, please call ExTraFax at +1-555-123-1234 to remove the freeze.</EN-US>
+            <ES-MX>Su archivo de crédito tiene una congelación temporal. Si desea solicitar productos de crédito, llame a ExTraFax al + 1-555-123-1234 para eliminar el congelamiento.</ES-MX>
+        </AlertMessage>
+    </ReportFreeze>
+    <FraudAlerts>
+        <ExtendedFraudVictimAlert>N</ExtendedFraudVictimAlert>
+    </FraudAlerts>
+    <FICO8>794</FICO8>
+</ExTraFaxReport>

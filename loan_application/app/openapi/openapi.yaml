@@ -209,6 +209,40 @@ paths:
       summary: Submit Exit
       tags:
       - Submit Exit
+  /api/v1/merchantconfig/{merchant_id}:
+    post:
+      x-openapi-router-controller: 'loan_application.app.implementation'
+      operationId: submit_merchant_config
+      parameters:
+        - description: Identifier for the merchant
+          explode: false
+          in: path
+          name: merchant_id
+          required: true
+          schema:
+            type: string
+          style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateMerchantConfigRequest'
+      responses: 
+        200:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateMerchantConfigResponse'
+          description: Request successfully processed
+        400:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadInputResponse'
+          description: Request invalid
+      summary: Create and store the configurations for a Merchant
+      tags:
+        - Create Merchant Configuration
 components:
   schemas:
     Address:
@@ -500,3 +534,34 @@ components:
       type: object
       required:
         - message
+    CreateMerchantConfigRequest:
+      example:
+        minimum_amount: 30000
+        maximum_amount: 200000
+        prequal_enabled: true
+      properties:
+        minimum_amount:
+          type: integer
+          description: "Minimum amount (in cents) that a consumer can get a loan for"
+        maximum_amount:
+          type: integer
+          description: "Maximum amount (in cents) that a consumer can get a loan for"
+        prequal_enabled:
+          type: boolean
+          description: "Flag to indicate if Prequal feature is enabled for this merchant"
+      type: object
+      required:
+        - minimum_amount
+        - maximum_amount
+        - prequal_enabled
+
+    CreateMerchantConfigResponse:
+      example:
+        merchant_configuration_id: "3345919e-0e85-11ea-94a8-acde48001122"
+      properties:
+        merchant_configuration_id:
+          type: string
+          format: uuid
+      type: object
+      required:
+        - merchant_configuration_id

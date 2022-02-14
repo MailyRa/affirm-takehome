@@ -24,9 +24,12 @@ from loan_application.models.requests import \
 from loan_application.repo.loan_application import api as loan_application_repo
 from loan_application.repo.loan_application.models import \
     LoanApplication, LoanApplicationUserInput
-from loan_application.repo.merchant.api import get_merchant_configuration
+from loan_application.repo.merchant.api import \
+    get_merchant_configuration, \
+    set_merchant_configuration
 from loan_application.repo.terms import api as terms_repo
 from loan_application.terms.api import compute_schedule
+from python.loan_application.models.merchants.merchant import MerchantConfiguration
 
 
 def initialize_loan_application(
@@ -317,3 +320,24 @@ def submit_exit(
         loan_application_id: str
 ) -> Union[Response, dict]:
     return {"message": "Goodbye."}
+
+def submit_merchant_config(
+    merchant_id: str, body: dict        
+) -> Union[Response, dict]:
+    merchant_data=set_merchant_configuration(
+        merchant_id=merchant_id, 
+        minimum_loan_amount=body.get("minimum_loan_amount"), 
+        maximum_loan_amount=body.get("maximum_loan_amount"),
+        prequal_enabled=body.get("prequal_enabled"),
+    )
+    if merchant_data is None: 
+        content_type = mimetype = 'application/json'
+        return Response(
+            status=400, content_type=content_type, mimetype=mimetype,
+            response=json.dumps({
+                "field": "merchant_id",
+                "message": "Could not find that merchant."
+            })
+        )
+
+    return {"merchant_configuration_id": merchant_id}

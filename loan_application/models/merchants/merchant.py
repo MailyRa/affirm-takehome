@@ -8,3 +8,4 @@ class MerchantConfiguration:
     name: str
     minimum_loan_amount: Decimal
     maximum_loan_amount: Decimal
+    prequal_enabled: int

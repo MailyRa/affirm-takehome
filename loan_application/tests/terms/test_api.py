@@ -114,3 +114,4 @@ class ComputeScheduleTestCase(unittest.TestCase):
         self.maxDiff = None
         for params, gold in self._params_to_gold_mapping:
             self.assertEqual(api.compute_schedule(**params), gold)
+

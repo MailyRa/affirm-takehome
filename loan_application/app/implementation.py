@@ -324,10 +324,12 @@ def submit_exit(
 def submit_merchant_config(
     merchant_id: str, body: dict        
 ) -> Union[Response, dict]:
+    minimum_loan_amount_cents = int(body.get("minimum_loan_amount")) / 100.0
+    maximum_loan_amount_cents = int(body.get("maximum_loan_amount")) / 100.0
     merchant_data=set_merchant_configuration(
         merchant_id=merchant_id, 
-        minimum_loan_amount=body.get("minimum_loan_amount"), 
-        maximum_loan_amount=body.get("maximum_loan_amount"),
+        minimum_loan_amount=Decimal(minimum_loan_amount_cents), 
+        maximum_loan_amount=Decimal(maximum_loan_amount_cents),
         prequal_enabled=body.get("prequal_enabled"),
     )
     if merchant_data is None: 

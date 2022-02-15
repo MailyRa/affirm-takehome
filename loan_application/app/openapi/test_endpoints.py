@@ -34,11 +34,11 @@ class EndpointTestCase(unittest.TestCase):
         data = {
           "currency": "cad",
           "merchant_id": "abcd",
-          "requested_amount_cents": "abcd"
+          "requested_amount_cents": 100
         }
         response = flask_app.app.test_client().post('/api/v1/loanapplication/',
                                                     content_type='application/json',
-                                                    data=json.dumps(data))
+                                                    data=json.dumps(data))                                         
         self.assertEquals(response.status_code, 400)
 
     def test_loan_application_failure_bad_currency(self):
@@ -85,5 +85,34 @@ class EndpointTestCase(unittest.TestCase):
         response_dict = json.loads(response.data)
         self.assertEquals(response_dict.get('message'), "Goodbye.")
     
-    def test_submit_merchant_configuration(self):
-        response = 
+    def test_submit_merchant_configuration_success(self):
+        merchant_id = "4f572866-0e85-11ea-94a8-acde48001122"
+        data = {
+            "minimum_amount": 10000, 
+            "maximum_amount": 30000,
+            "prequal_enabled": True
+        }
+        response = flask_app.app.test_client().post('/api/v1/merchantconfig/{}'.format(merchant_id),
+                                                    content_type='application/json',
+                                                    data=json.dumps(data))
+        self.assertEquals(response.status_code, 200)
+        response_dict = json.loads(response.data)
+        self.assertEquals(response_dict.get("merchant_configuration_id"), merchant_id)
+
+    def test_submit_merchant_configuration_merchant_does_not_exist(self):
+        merchant_id = "DOES_NOT_EXIST"
+        data = {
+            "minimum_amount": 10000, 
+            "maximum_amount": 30000,
+            "prequal_enabled": True
+        }
+        response = flask_app.app.test_client().post('/api/v1/merchantconfig/{}'.format(merchant_id),
+                                                    content_type='application/json',
+                                                    data=json.dumps(data))
+        self.assertEquals(response.status_code, 400)
+        response_dict = json.loads(response.data)
+        expected = {
+            "field": "merchant_id",
+            "message": "Could not find that merchant."
+        }
+        self.assertEqual(response_dict, expected)

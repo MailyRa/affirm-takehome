@@ -84,3 +84,6 @@ class EndpointTestCase(unittest.TestCase):
 
         response_dict = json.loads(response.data)
         self.assertEquals(response_dict.get('message'), "Goodbye.")
+    
+    def test_submit_merchant_configuration(self):
+        response = 

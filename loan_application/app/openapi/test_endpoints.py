@@ -116,3 +116,39 @@ class EndpointTestCase(unittest.TestCase):
             "message": "Could not find that merchant."
         }
         self.assertEqual(response_dict, expected)
+    
+    def test_submit_merchant_configuration_minimum_amount(self):
+        merchant_id = "4f572866-0e85-11ea-94a8-acde48001122"
+        data = {
+            "minimum_amount": 0, 
+            "maximum_amount": 30000,
+            "prequal_enabled": True
+        }
+        response = flask_app.app.test_client().post('/api/v1/merchantconfig/{}'.format(merchant_id),
+                                                    content_type='application/json',
+                                                    data=json.dumps(data))
+        self.assertEquals(response.status_code, 400)
+        response_dict = json.loads(response.data)
+        expected = {
+            "field": "minimum_amount",
+            "message": "Minimum amount must be larger than 0"
+        }
+        self.assertEqual(response_dict, expected)
+    
+    def test_submit_merchant_configuration_maximum_amount(self):
+        merchant_id = "4f572866-0e85-11ea-94a8-acde48001122"
+        data = {
+            "minimum_amount": 60000, 
+            "maximum_amount": 30000,
+            "prequal_enabled": True
+        }
+        response = flask_app.app.test_client().post('/api/v1/merchantconfig/{}'.format(merchant_id),
+                                                    content_type='application/json',
+                                                    data=json.dumps(data))
+        self.assertEquals(response.status_code, 400)
+        response_dict = json.loads(response.data)
+        expected = {
+            "field": "maximum_amount",
+            "message": "Maximum amount must be larger than the minimum amount"
+        }
+        self.assertEqual(response_dict, expected)

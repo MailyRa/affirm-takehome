@@ -542,10 +542,10 @@ components:
       properties:
         minimum_amount:
           type: integer
-          description: "Minimum amount (in cents) that a consumer can get a loan for"
+          description: "Minimum amount (in cents) that a consumer can get a loan for. Must be greater or equal to zero."
         maximum_amount:
           type: integer
-          description: "Maximum amount (in cents) that a consumer can get a loan for"
+          description: "Maximum amount (in cents) that a consumer can get a loan for. Must be greater than the minimum amount."
         prequal_enabled:
           type: boolean
           description: "Flag to indicate if Prequal feature is enabled for this merchant"

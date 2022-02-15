@@ -1,8 +1,7 @@
-from dataclasses import asdict, MISSING, replace
+from dataclasses import MISSING
 from datetime import date
 from decimal import Decimal
 import json
-import uuid
 from typing import Union
 
 from flask import Response, url_for
@@ -320,18 +319,36 @@ def submit_exit(
     return {"message": "Goodbye."}
 
 def submit_merchant_config(
-    merchant_id: str, body: dict        
+    merchant_id: str, 
+    body: dict        
 ) -> Union[Response, dict]:
-    minimum_loan_amount = int(body.get("minimum_amount")) / 100.0
-    maximum_loan_amount = int(body.get("maximum_amount")) / 100.0
+    minimum_amount = int(body.get("minimum_amount"))
+    maximum_amount = int(body.get("maximum_amount"))
+    content_type = mimetype = 'application/json'
+    if minimum_amount <= 0:
+        return Response(
+            status=400, content_type=content_type, mimetype=mimetype,
+            response=json.dumps({
+                "field": "minimum_amount",
+                "message": "Minimum amount must be larger than 0"
+            })
+        )
+    elif maximum_amount <= minimum_amount:
+        return Response(
+            status=400, content_type=content_type, mimetype=mimetype,
+            response=json.dumps({
+                "field": "maximum_amount",
+                "message": "Maximum amount must be larger than the minimum amount"
+            })
+        )
+    
     merchant_data=set_merchant_configuration(
         merchant_id=merchant_id, 
-        minimum_loan_amount=Decimal(minimum_loan_amount), 
-        maximum_loan_amount=Decimal(maximum_loan_amount),
+        minimum_loan_amount=Decimal(minimum_amount / 100.0), 
+        maximum_loan_amount=Decimal(maximum_amount / 100.0),
         prequal_enabled=body.get("prequal_enabled"),
     )
     if merchant_data is None: 
-        content_type = mimetype = 'application/json'
         return Response(
             status=400, content_type=content_type, mimetype=mimetype,
             response=json.dumps({

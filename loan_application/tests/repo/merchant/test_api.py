@@ -7,9 +7,6 @@ from loan_application.models.merchants.merchant import MerchantConfiguration
 from loan_application.repo.merchant import api
 from loan_application.repo.merchant.api import get_merchant_configuration, set_merchant_configuration
 
-#test get_merchant_config
-#test submit_merchant_config
-#test set_merchant_config
 class Testing(unittest.TestCase):
 
     def setUp(self):
